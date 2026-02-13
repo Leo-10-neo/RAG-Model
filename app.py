@@ -1,6 +1,15 @@
-import streamlit as st
+import sys
 import time
+from pathlib import Path
+
+import streamlit as st
 from pypdf import PdfReader
+
+# Deployment-safe import path setup for Streamlit Cloud/local folder layouts.
+BASE_DIR = Path(__file__).resolve().parent
+for candidate in [BASE_DIR, BASE_DIR / "Multimodal_RAG-main", BASE_DIR.parent]:
+    if (candidate / "rag").is_dir() and str(candidate) not in sys.path:
+        sys.path.insert(0, str(candidate))
 
 from rag.embeddings import get_jina_embeddings
 from rag.vision import describe_image
